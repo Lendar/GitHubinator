@@ -57,12 +57,18 @@ class GithubinatorCommand(sublime_plugin.TextCommand):
             else:
                 self.default_host = matches[4]
 
-        re_host = re.escape(self.default_host)
+        # re_host = '(git\.iknow\.travel\:10022|github\.com)'
 
-        for remote in self.default_remote:
+        remotes = [
+            [self.default_remote[0], re.escape(self.default_host), self.default_host, 'https'],
+            ['origin', 'git\.iknow\.travel\:10022', 'gitlab.iknow.travel', 'http']
+        ]
 
-            regex = r'.*\s.*(?:https?://%s/|%s:|git://%s/)(.*)/(.*?)(?:\.git)?\r?\n' % (re_host, re_host, re_host)
+        for remote, re_host, webhost, HTTP in remotes:
+            print remote, re_host
+            regex = r'.*\s.*(?:https?://%s/|%s:|ssh://git@%s/|git://%s/)(.*)/(.*?)(?:\.git)?\r?\n' % (re_host, re_host, re_host, re_host)
             result = re.search(remote + regex, config)
+            print regex, result
             if not result:
                 continue
 
@@ -79,11 +85,11 @@ class GithubinatorCommand(sublime_plugin.TextCommand):
 
             if 'bitbucket' in self.default_host:
                 full_link = HTTP + '://%s/%s/%s/src/%s%s/%s?at=%s#cl-%s' % \
-                    (self.default_host, username, project, sha, new_git_path,
+                    (webhost, username, project, sha, new_git_path,
                         file_name, branch, lines)
             else:
                 full_link = HTTP + '://%s/%s/%s/%s/%s%s/%s#L%s' % \
-                    (self.default_host, username, project, mode, target, new_git_path,
+                    (webhost, username, project, mode, target, new_git_path,
                         file_name, lines)
 
             sublime.set_clipboard(full_link)
