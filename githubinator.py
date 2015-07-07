@@ -65,10 +65,10 @@ class GithubinatorCommand(sublime_plugin.TextCommand):
         ]
 
         for remote, re_host, webhost, HTTP in remotes:
-            print remote, re_host
+            # print remote, re_host
             regex = r'.*\s.*(?:https?://%s/|%s:|ssh://git@%s/|git://%s/)(.*)/(.*?)(?:\.git)?\r?\n' % (re_host, re_host, re_host, re_host)
             result = re.search(remote + regex, config)
-            print regex, result
+            # print regex, result
             if not result:
                 continue
 
