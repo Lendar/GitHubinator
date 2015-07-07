@@ -47,15 +47,15 @@ class GithubinatorCommand(sublime_plugin.TextCommand):
             config = git_config_file.read()
 
         # Figure out the host
-        HTTP = 'https'
-        result = re.search(r'url.*?=.*?((https?)://([^/]*)/)|(git@([^:]*):)', config)
-        if result:
-            matches = result.groups()
-            if matches[0]:
-                HTTP = matches[1]
-                self.default_host = matches[2]
-            else:
-                self.default_host = matches[4]
+        # HTTP = 'https'
+        # result = re.search(r'url.*?=.*?((https?)://([^/]*)/)|(git@([^:]*):)', config)
+        # if result:
+        #     matches = result.groups()
+        #     if matches[0]:
+        #         HTTP = matches[1]
+        #         self.default_host = matches[2]
+        #     else:
+        #         self.default_host = matches[4]
 
         # re_host = '(git\.iknow\.travel\:10022|github\.com)'
 
